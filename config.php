@@ -4,7 +4,7 @@ $servername = "db";
 $username = "userAdmin";
 $password = "userPassword";
 $dbname = "mi_aplicacion";
-$conn = new mysqli($servername, $username, $password, $dbname);
+//$conn = new mysqli($servername, $username, $password, $dbname);
 
 $max_tries = 5;
 while ($max_tries > 0) {
