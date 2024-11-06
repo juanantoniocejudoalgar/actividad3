@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre_usuario = $_POST["nombre_usuario"];
     $contrasena = $_POST["contrasena"];
 
-    $sql = "SELECT id, contrasena FROM usuarios WHERE nombre_usuario = ?";
+    $sql = "SELECT id, password FROM usuarios WHERE username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $nombre_usuario);
     $stmt->execute();

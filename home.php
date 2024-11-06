@@ -7,7 +7,7 @@ if (!isset($_SESSION["usuario_id"])) {
     exit;
 }
 
-$sql = "SELECT id, nombre_usuario, creado_en FROM usuarios";
+$sql = "SELECT id, username, created_at FROM usuarios";
 $result = $conn->query($sql);
 ?>
 
@@ -32,9 +32,9 @@ $result = $conn->query($sql);
                             <div class="card-body">
                                 <h5 class="card-title">ID: <?php echo $row["id"]; ?></h5>
                                 <h6 class="card-subtitle mb-2 text-muted">Nombre de Usuario</h6>
-                                <p class="card-text"><?php echo $row["nombre_usuario"]; ?></p>
+                                <p class="card-text"><?php echo $row["username"]; ?></p>
                                 <h6 class="card-subtitle mb-2 text-muted">Fecha de Registro</h6>
-                                <p class="card-text"><?php echo $row["creado_en"]; ?></p>
+                                <p class="card-text"><?php echo $row["created_at"]; ?></p>
                             </div>
                         </div>
                     </div>

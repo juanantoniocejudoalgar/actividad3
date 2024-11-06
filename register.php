@@ -1,22 +1,45 @@
 <?php
 include 'config.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombre_usuario = $_POST["nombre_usuario"];
-    $contrasena = password_hash($_POST["contrasena"], PASSWORD_DEFAULT);
+// Conectar a la base de datos
+$servername = "db";
+$username = "userAdmin";
+$password = "userPassword";
+$dbname = "mi_aplicacion";
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-    $sql = "INSERT INTO usuarios (nombre_usuario, contrasena) VALUES (?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $nombre_usuario, $contrasena);
-    $stmt->execute();
-
-    echo "<div class='alert alert-success'>Usuario registrado exitosamente</div>";
-    header("Location: login.php");
-    exit;
-    $stmt->close();
-    $conn->close();
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
 }
+
+// Preparar la consulta de inserción
+$sql = "INSERT INTO usuarios (username, password) VALUES (?, ?)";
+$stmt = $conn->prepare($sql);
+
+if (!$stmt) {
+    die("Error en la preparación de la consulta: " . $conn->error);
+}
+
+// Obtener datos del formulario y vincularlos a la consulta
+$username = (isset($_POST['nombre_usuario'])!=null)? $_POST['nombre_usuario']:"";
+$password = (isset($_POST['contrasena'])!=null)?password_hash($_POST['contrasena'], PASSWORD_BCRYPT):"";
+
+$stmt->bind_param("ss", $username, $password);  // Vincula los parámetros
+
+// Ejecutar la consulta
+if($username!="" && $password!=""){
+if ($stmt->execute()) {
+    echo "Usuario registrado correctamente";
+    header('Location: login.php/');
+
+} else {
+    echo "Error al registrar usuario: " . $stmt->error;
+}}
+
+$stmt->close();
+$conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html>

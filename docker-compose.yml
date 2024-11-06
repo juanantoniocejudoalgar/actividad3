@@ -1,41 +1,39 @@
 version: '3.8'
 
 services:
-  # Servicio para la aplicación PHP
   web:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:80"  # Mapea el puerto 80 del contenedor al 8080 de localhost
+      - "8080:80"
     depends_on:
       - db
     networks:
       - app-network
 
-  # Servicio para la base de datos MySQL
   db:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: mi_aplicacion
-      MYSQL_USER: usuario_app
-      MYSQL_PASSWORD: usuario_password
+      MYSQL_USER: userAdmin
+      MYSQL_PASSWORD: userPassword
     ports:
-      - "3307:3306"  # Cambia el puerto local de 3306 a 3307
+      - "3306:3306"
     networks:
       - app-network
     volumes:
       - db-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Monta init.sql para crear la BBDD y tabla
 
-  # Servicio para phpMyAdmin
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: root_password
     ports:
-      - "8081:80"  # Mapea el puerto 80 del contenedor al 8081 de localhost
+      - "8081:80"
     depends_on:
       - db
     networks:
