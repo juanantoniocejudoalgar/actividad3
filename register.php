@@ -30,7 +30,7 @@ $stmt->bind_param("ss", $username, $password);  // Vincula los parámetros
 if($username!="" && $password!=""){
 if ($stmt->execute()) {
     echo "Usuario registrado correctamente";
-    header('Location: login.php/');
+    echo "<script>window.location.href='login.php'</script>";
 
 } else {
     echo "Error al registrar usuario: " . $stmt->error;
